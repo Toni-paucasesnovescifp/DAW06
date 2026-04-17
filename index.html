@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Scrum App</title>
+    <link rel="stylesheet" href="css/estils.css">
+</head>
+<body>
+<header>
+    <h1>Gestor de Tasques Kanban</h1>
+</header>
+
+<main>
+    <!-- Zona de Formulari i Filtres -->
+    <section id="controls">
+        <div id="formulari-tasca">
+            <h2>Nova Tasca</h2>
+            <!-- El formulari es detallarà a la Issue 3 -->
+            <form id="task-form">
+                <input type="text" placeholder="Títol de la tasca">
+                <button type="button">Afegir</button>
+            </form>
+        </div>
+
+        <div id="filtres-cerca">
+            <h2>Filtres</h2>
+            <input type="text" placeholder="Cerca...">
+        </div>
+    </section>
+
+    <!-- Tauler Kanban -->
+    <section id="tauler">
+        <article class="columna" id="per-fer">
+            <h2>Per fer</h2>
+            <div class="contenidor-tasques"></div>
+        </article>
+
+        <article class="columna" id="en-curs">
+            <h2>En curs</h2>
+            <div class="contenidor-tasques"></div>
+        </article>
+
+        <article class="columna" id="fet">
+            <h2>Fet</h2>
+            <div class="contenidor-tasques"></div>
+        </article>
+    </section>
+</main>
+
+<aside id="estadistiques">
+    <!-- Espai per a la Issue 4 -->
+</aside>
+
+<footer>
+    <p>&copy; 2024 - Projecte Scrum Kanban</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
