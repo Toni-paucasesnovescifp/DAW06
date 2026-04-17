@@ -16,16 +16,19 @@
     <section id="controls">
         <div id="formulari-tasca">
             <h2>Nova Tasca</h2>
-            <!-- El formulari es detallarà a la Issue 3 -->
             <form id="task-form">
-                <input type="text" placeholder="Títol de la tasca">
+                <!-- Solució al warning: afegim label i id -->
+                <label for="task-title">Títol de la tasca:</label>
+                <input type="text" id="task-title" placeholder="Escriu el títol...">
                 <button type="button">Afegir</button>
             </form>
         </div>
 
         <div id="filtres-cerca">
             <h2>Filtres</h2>
-            <input type="text" placeholder="Cerca...">
+            <!-- Solució al warning: afegim label i id -->
+            <label for="search-input">Cerca tasques:</label>
+            <input type="text" id="search-input" placeholder="Cerca pel text...">
         </div>
     </section>
 
