@@ -1,81 +1,60 @@
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
-header { text-align: center; margin-bottom: 30px; }
+body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+header { text-align: center; margin-bottom: 20px; }
 
-/* Formulari */
-#controls { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
-.camp { margin-bottom: 15px; display: flex; flex-direction: column; }
-.camp label { font-weight: bold; margin-bottom: 5px; }
-.camp input, .camp textarea, .camp select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; height: 35px; /* Forcem l'alçada per a tots igual */
-    box-sizing: border-box;}
-.camp textarea { resize: vertical; min-height: 60px; }
-.botons-formulari { display: flex; gap: 10px; justify-content: flex-end; }
-
-/* Tauler */
-#tauler { display: flex; gap: 20px; justify-content: space-between; }
-.columna { background: #ebedf0; border-radius: 8px; width: 32%; min-height: 500px; padding: 15px; border: 1px solid #ddd; }
-.columna h2 { text-align: center; font-size: 1.2rem; color: #555; margin-bottom: 20px; }
-
-/* Targetes */
-.targeta-tasca { background: white; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 8px solid #ccc; }
-.targeta-tasca.alta { border-left-color: #d9534f; }
-.targeta-tasca.mitjana { border-left-color: #f0ad4e; }
-.targeta-tasca.baixa { border-left-color: #5cb85c; }
-.targeta-tasca h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
-.targeta-tasca p { font-size: 0.9rem; color: #666; margin-bottom: 10px; }
-.targeta-tasca .meta { font-size: 0.8rem; font-weight: bold; color: #888; }
-
-/* Secció d'accions (Corregida) */
-.accions {
-    margin-top: 15px;
-    display: flex;
-    gap: 8px;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-}
-
-
-/* Ajustos del Formulari Compacte */
-#controls {
-    background: white;
+/* Requadre gros del tauler */
+#tauler-container {
+    background: #cbd5e1;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
-    max-width: 600px; /* Reduït l'ample total a gairebé la meitat */
-    margin-left: auto;
-    margin-right: auto;
+    border-radius: 15px;
+    border: 2px solid #94a3b8;
+    transition: all 0.3s ease;
 }
 
-.fila-formulari {
-    display: flex;
-    gap: 15px; /* Espai entre columnes */
-    margin-bottom: 10px;
+/* Efecte bloqueig/ombrejat */
+.tauler-bloquejat {
+    pointer-events: none;
+    filter: grayscale(0.5) opacity(0.5) blur(1px);
 }
 
-.camp {
-    flex: 1; /* Fa que els dos camps de la fila tinguin el mateix ample */
-    display: flex;
-    flex-direction: column;
+/* Tauler i Columnes */
+#tauler { display: flex; gap: 20px; justify-content: space-between; }
+.columna { background: #f1f5f9; border-radius: 10px; width: 32%; min-height: 500px; padding: 15px; }
+.columna h2 { text-align: center; color: #475569; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+
+/* Formulari Modal */
+#controls {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    z-index: 1000;
+    width: 90%;
+    max-width: 650px;
 }
 
-.camp label { font-weight: bold; margin-bottom: 4px; font-size: 0.85rem; }
+#form-title { margin-top: 0; color: #1e293b; }
+.fila-formulari { display: flex; gap: 15px; margin-bottom: 15px; }
+.camp { flex: 1; display: flex; flex-direction: column; }
+.camp label { font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
 
 .camp input, .camp select {
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    height: 35px; /* Alçada controlada i uniforme */
+    padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 38px; box-sizing: border-box;
 }
 
-/* Ara descripció és un input de text normal (una sola línia) */
-#task-desc {
-    height: 35px;
-}
+.botons-formulari { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
 
-.botons-formulari {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 10px;
-}
+/* Targetes */
+.targeta-tasca { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 8px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.targeta-tasca.alta { border-left-color: #ef4444; }
+.targeta-tasca.mitjana { border-left-color: #f59e0b; }
+.targeta-tasca.baixa { border-left-color: #10b981; }
+.targeta-tasca h3 { margin: 0 0 8px 0; }
+.targeta-tasca p { font-size: 0.9rem; color: #64748b; margin-bottom: 10px; }
+.accions { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f1f5f9; display: flex; gap: 5px; }
+
+#btn-obrir-formulari { padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
