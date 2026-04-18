@@ -12,27 +12,55 @@
 </header>
 
 <main>
-    <!-- Zona de Formulari i Filtres -->
     <section id="controls">
         <div id="formulari-tasca">
-            <h2>Nova Tasca</h2>
+            <h2 id="form-title">Nova Tasca</h2>
             <form id="task-form">
-                <!-- Solució al warning: afegim label i id -->
-                <label for="task-title">Títol de la tasca:</label>
-                <input type="text" id="task-title" placeholder="Escriu el títol...">
-                <button type="button">Afegir</button>
-            </form>
-        </div>
+                <input type="hidden" id="edit-id">
 
-        <div id="filtres-cerca">
-            <h2>Filtres</h2>
-            <!-- Solució al warning: afegim label i id -->
-            <label for="search-input">Cerca tasques:</label>
-            <input type="text" id="search-input" placeholder="Cerca pel text...">
+                <!-- Grups de dos en dos -->
+                <div class="fila-formulari">
+                    <div class="camp">
+                        <label for="task-title">Títol:</label>
+                        <input type="text" id="task-title" required placeholder="Què cal fer?">
+                    </div>
+                    <div class="camp">
+                        <label for="task-desc">Descripció:</label>
+                        <input type="text" id="task-desc" placeholder="Detalls curts...">
+                    </div>
+                </div>
+
+                <div class="fila-formulari">
+                    <div class="camp">
+                        <label for="task-date">Venciment:</label>
+                        <input type="date" id="task-date">
+                    </div>
+                    <div class="camp">
+                        <label for="task-priority">Prioritat:</label>
+                        <select id="task-priority">
+                            <option value="baixa">Baixa</option>
+                            <option value="mitjana" selected>Mitjana</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+                    <div class="camp">
+                        <label for="task-status">Estat:</label>
+                        <select id="task-status">
+                            <option value="perFer">Per fer</option>
+                            <option value="enCurs">En curs</option>
+                            <option value="fet">Fet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="botons-formulari">
+                    <button type="submit" id="btn-save">Afegir Tasca</button>
+                    <button type="button" id="btn-cancel" style="display:none;">Cancel·lar</button>
+                </div>
+            </form>
         </div>
     </section>
 
-    <!-- Tauler Kanban -->
     <section id="tauler">
         <article class="columna" id="per-fer">
             <h2>Per fer</h2>
@@ -50,15 +78,6 @@
         </article>
     </section>
 </main>
-
-<aside id="estadistiques">
-    <!-- Espai per a la Issue 4 -->
-</aside>
-
-<footer>
-    <p>Projecte DAW06</p>
-    <p>Autor: Toni Covas</p>
-</footer>
 
 <script src="js/script.js"></script>
 </body>

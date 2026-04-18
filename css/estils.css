@@ -1,20 +1,81 @@
-body { font-family: sans-serif; margin: 0; padding: 20px; background: #f4f4f4; }
-header { text-align: center; margin-bottom: 20px; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+header { text-align: center; margin-bottom: 30px; }
 
-#tauler {
+/* Formulari */
+#controls { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
+.camp { margin-bottom: 15px; display: flex; flex-direction: column; }
+.camp label { font-weight: bold; margin-bottom: 5px; }
+.camp input, .camp textarea, .camp select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; height: 35px; /* Forcem l'alçada per a tots igual */
+    box-sizing: border-box;}
+.camp textarea { resize: vertical; min-height: 60px; }
+.botons-formulari { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* Tauler */
+#tauler { display: flex; gap: 20px; justify-content: space-between; }
+.columna { background: #ebedf0; border-radius: 8px; width: 32%; min-height: 500px; padding: 15px; border: 1px solid #ddd; }
+.columna h2 { text-align: center; font-size: 1.2rem; color: #555; margin-bottom: 20px; }
+
+/* Targetes */
+.targeta-tasca { background: white; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 8px solid #ccc; }
+.targeta-tasca.alta { border-left-color: #d9534f; }
+.targeta-tasca.mitjana { border-left-color: #f0ad4e; }
+.targeta-tasca.baixa { border-left-color: #5cb85c; }
+.targeta-tasca h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
+.targeta-tasca p { font-size: 0.9rem; color: #666; margin-bottom: 10px; }
+.targeta-tasca .meta { font-size: 0.8rem; font-weight: bold; color: #888; }
+
+/* Secció d'accions (Corregida) */
+.accions {
+    margin-top: 15px;
     display: flex;
-    gap: 20px;
-    justify-content: space-around;
+    gap: 8px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
 }
 
-.columna {
-    background: #ebedf0;
-    border-radius: 5px;
-    width: 30%;
-    min-height: 400px;
-    padding: 10px;
+
+/* Ajustos del Formulari Compacte */
+#controls {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    max-width: 600px; /* Reduït l'ample total a gairebé la meitat */
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.columna h2 { text-align: center; border-bottom: 2px solid #ccc; }
+.fila-formulari {
+    display: flex;
+    gap: 15px; /* Espai entre columnes */
+    margin-bottom: 10px;
+}
 
-#controls { margin-bottom: 30px; display: flex; gap: 20px; }
+.camp {
+    flex: 1; /* Fa que els dos camps de la fila tinguin el mateix ample */
+    display: flex;
+    flex-direction: column;
+}
+
+.camp label { font-weight: bold; margin-bottom: 4px; font-size: 0.85rem; }
+
+.camp input, .camp select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 35px; /* Alçada controlada i uniforme */
+}
+
+/* Ara descripció és un input de text normal (una sola línia) */
+#task-desc {
+    height: 35px;
+}
+
+.botons-formulari {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
