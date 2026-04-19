@@ -117,7 +117,7 @@ function actualitzarEstadistiques(tasquesFiltrades) {
         document.getElementById('filtre-prioritat').value !== "totes";
 
     if (hiHaFiltre) {
-        contenidorFiltrat.style.display = "flex";
+        contenidorFiltrat.style.display = "";
         const fTotal = tasquesFiltrades.length;
         const fFets = tasquesFiltrades.filter(t => t.estat === 'fet').length;
         const fPerFer = tasquesFiltrades.filter(t => t.estat === 'perFer').length;
