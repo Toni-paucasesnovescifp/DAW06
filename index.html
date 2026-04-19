@@ -7,17 +7,100 @@
     <link rel="stylesheet" href="css/estils.css">
 </head>
 <body>
+
 <header>
     <h1>Gestor de Tasques Kanban</h1>
+    <!-- Botó principal per obrir el formulari -->
+    <div style="margin-top: 20px;">
+        <button id="btn-obrir-formulari" onclick="obrirFormulari()">+ Nova Tasca</button>
+    </div>
 </header>
 
 <main>
-    <!-- Botó per obrir el formulari -->
-    <div style="text-align: center; margin-bottom: 25px;">
-        <button id="btn-obrir-formulari" onclick="obrirFormulari()">+ Nova Tasca</button>
-    </div>
+    <!-- ASIDE: Zona de filtres, cerca i estadístiques (Issues 1 i 4) -->
+    <!-- ASIDE: Zona de filtres, cerca i estadístiques (Issue 4) -->
+    <aside id="barra-lateral" style="max-width: 1200px; margin: 0 auto 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
 
-    <!-- Formulari (Modal) -->
+        <!-- Filtres i Cerca amb Labels per Accessibilitat -->
+        <section id="filtres" style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <div class="camp-filtre">
+                <label for="filtre-text" style="display: none;">Cerca per text</label>
+                <input type="text" id="filtre-text" placeholder="🔍 Cerca..." oninput="renderTauler()" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; min-width: 200px;">
+            </div>
+
+            <div class="camp-filtre">
+                <label for="filtre-estat" style="display: none;">Filtra per estat</label>
+                <select id="filtre-estat" onchange="renderTauler()" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
+                    <option value="tots">Tots els estats</option>
+                    <option value="perFer">Per fer</option>
+                    <option value="enCurs">En curs</option>
+                    <option value="fet">Fet</option>
+                </select>
+            </div>
+
+            <div class="camp-filtre">
+                <label for="filtre-prioritat" style="display: none;">Filtra per prioritat</label>
+                <select id="filtre-prioritat" onchange="renderTauler()" style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;">
+                    <option value="totes">Totes les prioritats</option>
+                    <option value="baixa">Baixa</option>
+                    <option value="mitjana">Mitjana</option>
+                    <option value="alta">Alta</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Secció d'Estadístiques (Globals + Filtrades) -->
+        <!-- Secció d'Estadístiques (Globals + Filtrades) TOTALMENT SIMÈTRIQUES -->
+        <section id="estadistiques" style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px; min-width: 650px;">
+
+            <!-- Línia 1: Global -->
+            <div id="stats-globals" class="fila-stats">
+                <span class="c-titol">Global:</span>
+                <span class="c-total">Total: <strong id="stat-total">0</strong></span>
+                <span class="c-pend">Pend: <strong id="stat-per-fer">0</strong></span>
+                <span class="c-curs">Curs: <strong id="stat-en-curs">0</strong></span>
+                <span class="c-fet">Fet: <strong id="stat-fet">0</strong></span>
+                <span class="c-percent">Completat: <strong id="stat-progres">0%</strong></span>
+            </div>
+
+            <!-- Línia 2: Filtrat -->
+            <div id="stats-filtrades" class="fila-stats" style="display: none;">
+                <span class="c-titol">Filtrat:</span>
+                <span class="c-total">Total: <strong id="f-stat-total">0</strong></span>
+                <span class="c-pend">Pend: <strong id="f-stat-per-fer">0</strong></span>
+                <span class="c-curs">Curs: <strong id="f-stat-en-curs">0</strong></span>
+                <span class="c-fet">Fet: <strong id="f-stat-fet">0</strong></span>
+                <span class="c-percent">Completat: <strong id="f-stat-progres">0%</strong></span>
+            </div>
+        </section>
+
+
+
+    </aside>
+
+
+
+    <!-- TAULER: Zona principal (Section + Articles) -->
+    <section id="tauler-container">
+        <div id="tauler">
+            <article class="columna" id="per-fer">
+                <h2>Per fer</h2>
+                <div class="contenidor-tasques"></div>
+            </article>
+
+            <article class="columna" id="en-curs">
+                <h2>En procés</h2>
+                <div class="contenidor-tasques"></div>
+            </article>
+
+            <article class="columna" id="fet">
+                <h2>Fet</h2>
+                <div class="contenidor-tasques"></div>
+            </article>
+        </div>
+    </section>
+
+    <!-- MODAL FORMULARI (Manté la estructura anterior) -->
     <section id="controls">
         <div id="formulari-tasca">
             <h2 id="form-title">Nova Tasca</h2>
@@ -65,27 +148,11 @@
             </form>
         </div>
     </section>
-
-    <!-- Requadre gros que engloba les 3 columnes -->
-    <div id="tauler-container">
-        <section id="tauler">
-            <article class="columna" id="per-fer">
-                <h2>Per fer</h2>
-                <div class="contenidor-tasques"></div>
-            </article>
-
-            <article class="columna" id="en-curs">
-                <h2>En procés</h2>
-                <div class="contenidor-tasques"></div>
-            </article>
-
-            <article class="columna" id="fet">
-                <h2>Fet</h2>
-                <div class="contenidor-tasques"></div>
-            </article>
-        </section>
-    </div>
 </main>
+
+<footer style="text-align: center; margin-top: 40px; padding: 20px; color: #64748b; font-size: 0.8rem; border-top: 1px solid #e2e8f0;">
+    <p>&copy; 2024 El meu Kanban Scrum - Projecte Educatiu</p>
+</footer>
 
 <script src="js/script.js"></script>
 </body>
