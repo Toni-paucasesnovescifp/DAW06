@@ -11,13 +11,12 @@
 <header>
     <h1>Gestor de Tasques Kanban</h1>
     <!-- Botó principal per obrir el formulari -->
-    <div style="margin-top: 20px;">
+    <div style="text-align: center; margin-top: 20px;">
         <button id="btn-obrir-formulari" onclick="obrirFormulari()">+ Nova Tasca</button>
     </div>
 </header>
 
 <main>
-    <!-- ASIDE: Zona de filtres, cerca i estadístiques (Issues 1 i 4) -->
     <!-- ASIDE: Zona de filtres, cerca i estadístiques (Issue 4) -->
     <aside id="barra-lateral" style="max-width: 1200px; margin: 0 auto 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
 
@@ -50,8 +49,10 @@
         </section>
 
         <!-- Secció d'Estadístiques (Globals + Filtrades) -->
-        <!-- Secció d'Estadístiques (Globals + Filtrades) TOTALMENT SIMÈTRIQUES -->
-        <section id="estadistiques" style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px; min-width: 650px;">
+        <section id="estadistiques" style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px;">
+
+
+
 
             <!-- Línia 1: Global -->
             <div id="stats-globals" class="fila-stats">
@@ -73,34 +74,29 @@
                 <span class="c-percent">Completat: <strong id="f-stat-progres">0%</strong></span>
             </div>
         </section>
-
-
-
     </aside>
 
-
-
-    <!-- TAULER: Zona principal (Section + Articles) -->
+    <!-- TAULER: Zona principal (Amb Drag & Drop - Issue 5) -->
     <section id="tauler-container">
         <div id="tauler">
-            <article class="columna" id="per-fer">
+            <article class="columna" id="per-fer" ondragover="permetreSoltar(event)" ondrop="soltarTasca(event, 'perFer')">
                 <h2>Per fer</h2>
                 <div class="contenidor-tasques"></div>
             </article>
 
-            <article class="columna" id="en-curs">
+            <article class="columna" id="en-curs" ondragover="permetreSoltar(event)" ondrop="soltarTasca(event, 'enCurs')">
                 <h2>En procés</h2>
                 <div class="contenidor-tasques"></div>
             </article>
 
-            <article class="columna" id="fet">
+            <article class="columna" id="fet" ondragover="permetreSoltar(event)" ondrop="soltarTasca(event, 'fet')">
                 <h2>Fet</h2>
                 <div class="contenidor-tasques"></div>
             </article>
         </div>
     </section>
 
-    <!-- MODAL FORMULARI (Manté la estructura anterior) -->
+    <!-- MODAL FORMULARI -->
     <section id="controls">
         <div id="formulari-tasca">
             <h2 id="form-title">Nova Tasca</h2>
