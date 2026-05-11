@@ -1,0 +1,7 @@
+# Configuració de WebStorm / JetBrains
+.idea/
+*.iml
+
+# Altres fitxers comuns a ignorar
+node_modules/
+.DS_Store
