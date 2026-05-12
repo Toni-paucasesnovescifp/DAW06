@@ -1,27 +1,74 @@
-body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
-header { text-align: center; margin-bottom: 20px; }
+/* 1. ESTILS GENERALS */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    padding: 20px;
+    color: #333;
+    margin: 0;
+}
 
-/* Requadre gros del tauler */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 { color: #1e293b; }
+
+/* 2. REQUADRE GROS DEL TAULER (CONTAINER) */
 #tauler-container {
     background: #cbd5e1;
     padding: 20px;
     border-radius: 15px;
     border: 2px solid #94a3b8;
     transition: all 0.3s ease;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Efecte bloqueig/ombrejat */
+/* Efecte bloqueig/ombrejat quan el formulari està obert */
 .tauler-bloquejat {
     pointer-events: none;
-    filter: grayscale(0.5) opacity(0.5) blur(1px);
+    filter: grayscale(0.5) opacity(0.5) blur(2px);
 }
 
-/* Tauler i Columnes */
-#tauler { display: flex; gap: 20px; justify-content: space-between; }
-.columna { background: #f1f5f9; border-radius: 10px; width: 32%; min-height: 500px; padding: 15px; }
-.columna h2 { text-align: center; color: #475569; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+/* 3. TAULER KANBAN I COLUMNES */
+#tauler {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
 
-/* Formulari Modal */
+.columna {
+    background: #f1f5f9;
+    border-radius: 10px;
+    width: 32%;
+    min-height: 500px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.columna h2 {
+    text-align: center;
+    color: #475569;
+    border-bottom: 2px solid #cbd5e1;
+    padding-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+/* 4. FORMULARI MODAL */
+#btn-obrir-formulari {
+    padding: 12px 24px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#btn-obrir-formulari:hover { background: #1d4ed8; }
+
 #controls {
     display: none;
     position: fixed;
@@ -29,32 +76,130 @@ header { text-align: center; margin-bottom: 20px; }
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 25px;
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 50px rgba(0,0,0,0.4);
     z-index: 1000;
     width: 90%;
     max-width: 650px;
 }
 
-#form-title { margin-top: 0; color: #1e293b; }
-.fila-formulari { display: flex; gap: 15px; margin-bottom: 15px; }
-.camp { flex: 1; display: flex; flex-direction: column; }
-.camp label { font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+#form-title { margin-top: 0; color: #1e293b; margin-bottom: 20px; }
 
-.camp input, .camp select {
-    padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 38px; box-sizing: border-box;
+.fila-formulari {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
 }
 
-.botons-formulari { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.camp {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
-/* Targetes */
-.targeta-tasca { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; border-left: 8px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.camp label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.camp input, .camp select {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    height: 38px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.botons-formulari {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 25px;
+}
+
+#btn-cancel {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#btn-save {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 5. TARGETES DE TASCA */
+.targeta-tasca {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 8px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.targeta-tasca:hover { transform: translateY(-2px); }
+
+/* Colors de prioritat (Vora esquerra) */
 .targeta-tasca.alta { border-left-color: #ef4444; }
 .targeta-tasca.mitjana { border-left-color: #f59e0b; }
 .targeta-tasca.baixa { border-left-color: #10b981; }
-.targeta-tasca h3 { margin: 0 0 8px 0; }
-.targeta-tasca p { font-size: 0.9rem; color: #64748b; margin-bottom: 10px; }
-.accions { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f1f5f9; display: flex; gap: 5px; }
 
-#btn-obrir-formulari { padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.targeta-tasca h3 { margin: 0; font-size: 1rem; color: #1e293b; }
+
+/* BADGES DE PRIORITAT (Text i fons) */
+.badge-prioritat {
+    font-size: 0.65rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+.badge-prioritat.alta { background: #fee2e2; color: #b91c1c; }
+.badge-prioritat.mitjana { background: #fef3c7; color: #92400e; }
+.badge-prioritat.baixa { background: #d1fae5; color: #065f46; }
+
+.targeta-tasca p {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 10px 0;
+    line-height: 1.4;
+}
+
+/* 6. ACCIONS I BOTONS DINS LA TARGETA */
+.accions {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    gap: 8px;
+}
+
+.accions button {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.accions button:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
