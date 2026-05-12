@@ -206,6 +206,22 @@ function soltarTasca(e, nouEstat) {
 
 function inicialitzarApp() {
     llistaTasques = carregarTasques();
+
+    // Si no hi ha cap tasca guardada, creem una de prova
+    if (llistaTasques.length === 0) {
+        const tascaProva = {
+            id: Date.now(),
+            titol: 'Tasca de prova primera',
+            descripcio: 'Aquesta és una tasca de prova. Pots editar-la, moure-la o esborrar-la.',
+            prioritat: 'mitjana',
+            estat: 'perFer',
+            dataVenciment: new Date().toISOString().split('T')[0], // Data d'avui
+            creatEl: new Date().toISOString()
+        };
+        llistaTasques.push(tascaProva);
+        guardarTasques(llistaTasques); // La desem perquè ja aparegui el primer cop
+    }
+
     renderTauler();
 }
 
