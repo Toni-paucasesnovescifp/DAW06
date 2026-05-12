@@ -43,12 +43,10 @@ function renderTauler() {
 
     Object.values(columnes).forEach(c => c.innerHTML = '');
 
-    // 1. Capturar valors dels filtres
     const textCerca = document.getElementById('filtre-text').value.toLowerCase();
     const prioritatCerca = document.getElementById('filtre-prioritat').value;
     const estatCerca = document.getElementById('filtre-estat').value;
 
-    // 2. Pipeline de filtratge (Issue 4)
     const tasquesFiltrades = llistaTasques.filter(tasca => {
         const compleixText = tasca.titol.toLowerCase().includes(textCerca) ||
             tasca.descripcio.toLowerCase().includes(textCerca);
@@ -65,6 +63,16 @@ function renderTauler() {
     tasquesFiltrades.forEach(tasca => {
         const div = document.createElement('div');
         div.className = `targeta-tasca ${tasca.prioritat}`;
+
+        // --- DRAG & DROP (Issue 5) ---
+        div.draggable = true;
+        div.ondragstart = (e) => {
+            e.dataTransfer.setData('text/plain', tasca.id);
+            div.style.opacity = "0.5";
+        };
+        div.ondragend = () => div.style.opacity = "1";
+        // -----------------------------
+
         const dataV = tasca.dataVenciment ? new Date(tasca.dataVenciment).toLocaleDateString() : '---';
 
         let botonsEstat = '';
@@ -91,7 +99,6 @@ function renderTauler() {
 }
 
 function actualitzarEstadistiques(tasquesFiltrades) {
-    // 1. Estadístiques GLOBALS (sempre visibles)
     const total = llistaTasques.length;
     const fets = llistaTasques.filter(t => t.estat === 'fet').length;
     const perFer = llistaTasques.filter(t => t.estat === 'perFer').length;
@@ -104,16 +111,13 @@ function actualitzarEstadistiques(tasquesFiltrades) {
     document.getElementById('stat-fet').textContent = fets;
     document.getElementById('stat-progres').textContent = `${proc}%`;
 
-    // 2. Lògica DADES FILTRADES (Issue 4 ampliada)
     const contenidorFiltrat = document.getElementById('stats-filtrades');
-
-    // Comprovem si hi ha algun filtre actiu
     const hiHaFiltre = document.getElementById('filtre-text').value !== "" ||
         document.getElementById('filtre-estat').value !== "tots" ||
         document.getElementById('filtre-prioritat').value !== "totes";
 
     if (hiHaFiltre) {
-        contenidorFiltrat.style.display = "flex";
+        contenidorFiltrat.style.display = "";
         const fTotal = tasquesFiltrades.length;
         const fFets = tasquesFiltrades.filter(t => t.estat === 'fet').length;
         const fPerFer = tasquesFiltrades.filter(t => t.estat === 'perFer').length;
@@ -129,7 +133,6 @@ function actualitzarEstadistiques(tasquesFiltrades) {
         contenidorFiltrat.style.display = "none";
     }
 }
-
 
 // 5. LÒGICA DE NEGOCI (CRUD)
 taskForm.addEventListener('submit', (e) => {
@@ -190,10 +193,38 @@ function resetFormulari() {
     btnSave.textContent = "Afegir Tasca";
 }
 
+// 6. FUNCIONS DRAG & DROP (Issue 5)
+function permetreSoltar(e) {
+    e.preventDefault();
+}
+
+function soltarTasca(e, nouEstat) {
+    e.preventDefault();
+    const id = e.dataTransfer.getData('text/plain');
+    moureTasca(parseInt(id), nouEstat);
+}
+
 function inicialitzarApp() {
     llistaTasques = carregarTasques();
+
+    // Si no hi ha cap tasca guardada, creem una de prova
+    if (llistaTasques.length === 0) {
+        const tascaProva = {
+            id: Date.now(),
+            titol: 'Tasca de prova primera',
+            descripcio: 'Aquesta és una tasca de prova. Pots editar-la, moure-la o esborrar-la.',
+            prioritat: 'mitjana',
+            estat: 'perFer',
+            dataVenciment: new Date().toISOString().split('T')[0], // Data d'avui
+            creatEl: new Date().toISOString()
+        };
+        llistaTasques.push(tascaProva);
+        guardarTasques(llistaTasques); // La desem perquè ja aparegui el primer cop
+    }
+
     renderTauler();
 }
 
+// EVENTS
 document.addEventListener('DOMContentLoaded', inicialitzarApp);
 btnCancel.addEventListener('click', tancarFormulari);
