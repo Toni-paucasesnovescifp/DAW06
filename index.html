@@ -12,13 +12,18 @@
 </header>
 
 <main>
+    <!-- Botó per obrir el formulari -->
+    <div style="text-align: center; margin-bottom: 25px;">
+        <button id="btn-obrir-formulari" onclick="obrirFormulari()">+ Nova Tasca</button>
+    </div>
+
+    <!-- Formulari (Modal) -->
     <section id="controls">
         <div id="formulari-tasca">
             <h2 id="form-title">Nova Tasca</h2>
             <form id="task-form">
                 <input type="hidden" id="edit-id">
 
-                <!-- Grups de dos en dos -->
                 <div class="fila-formulari">
                     <div class="camp">
                         <label for="task-title">Títol:</label>
@@ -33,7 +38,7 @@
                 <div class="fila-formulari">
                     <div class="camp">
                         <label for="task-date">Venciment:</label>
-                        <input type="date" id="task-date">
+                        <input type="date" id="task-date" required>
                     </div>
                     <div class="camp">
                         <label for="task-priority">Prioritat:</label>
@@ -54,29 +59,32 @@
                 </div>
 
                 <div class="botons-formulari">
+                    <button type="button" id="btn-cancel">Cancel·lar</button>
                     <button type="submit" id="btn-save">Afegir Tasca</button>
-                    <button type="button" id="btn-cancel" style="display:none;">Cancel·lar</button>
                 </div>
             </form>
         </div>
     </section>
 
-    <section id="tauler">
-        <article class="columna" id="per-fer">
-            <h2>Per fer</h2>
-            <div class="contenidor-tasques"></div>
-        </article>
+    <!-- Requadre gros que engloba les 3 columnes -->
+    <div id="tauler-container">
+        <section id="tauler">
+            <article class="columna" id="per-fer">
+                <h2>Per fer</h2>
+                <div class="contenidor-tasques"></div>
+            </article>
 
-        <article class="columna" id="en-curs">
-            <h2>En curs</h2>
-            <div class="contenidor-tasques"></div>
-        </article>
+            <article class="columna" id="en-curs">
+                <h2>En procés</h2>
+                <div class="contenidor-tasques"></div>
+            </article>
 
-        <article class="columna" id="fet">
-            <h2>Fet</h2>
-            <div class="contenidor-tasques"></div>
-        </article>
-    </section>
+            <article class="columna" id="fet">
+                <h2>Fet</h2>
+                <div class="contenidor-tasques"></div>
+            </article>
+        </section>
+    </div>
 </main>
 
 <script src="js/script.js"></script>

@@ -1,15 +1,28 @@
-// 1. Configuració i Constants
 const STORAGE_KEY = 'tasquesKanban';
 let llistaTasques = [];
 
-// Selecció d'elements del DOM
 const taskForm = document.getElementById('task-form');
 const btnSave = document.getElementById('btn-save');
 const btnCancel = document.getElementById('btn-cancel');
 const editIdInput = document.getElementById('edit-id');
 const formTitle = document.getElementById('form-title');
+const controls = document.getElementById('controls');
+const taulerContainer = document.getElementById('tauler-container');
 
-// 2. Funcions de Persistència
+// Funcions Interfície
+function obrirFormulari() {
+    controls.style.display = 'block';
+    taulerContainer.classList.add('tauler-bloquejat');
+    document.getElementById('task-title').focus();
+}
+
+function tancarFormulari() {
+    controls.style.display = 'none';
+    taulerContainer.classList.remove('tauler-bloquejat');
+    resetFormulari();
+}
+
+// Persistència
 function carregarTasques() {
     const dades = localStorage.getItem(STORAGE_KEY);
     return dades ? JSON.parse(dades) : [];
@@ -19,7 +32,7 @@ function guardarTasques(tasques) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasques));
 }
 
-// 3. Funció de Renderització (CORREGIDA)
+// Renderització
 function renderTauler() {
     const columnes = {
         perFer: document.querySelector('#per-fer .contenidor-tasques'),
@@ -32,45 +45,37 @@ function renderTauler() {
     llistaTasques.forEach(tasca => {
         const div = document.createElement('div');
         div.className = `targeta-tasca ${tasca.prioritat}`;
+        const dataV = tasca.dataVenciment ? new Date(tasca.dataVenciment).toLocaleDateString() : '---';
 
-        // Data de venciment formatada
-        const venciment = tasca.dataVenciment ? new Date(tasca.dataVenciment).toLocaleDateString() : 'Sense data';
-
-        // Lògica del botó per moure d'estat
         let botonsEstat = '';
-        if (tasca.estat === 'perFer') botonsEstat = `<button onclick="moureTasca(${tasca.id}, 'enCurs')">Començar ➔</button>`;
-        if (tasca.estat === 'enCurs') botonsEstat = `<button onclick="moureTasca(${tasca.id}, 'fet')">Finalitzar ➔</button>`;
+        if (tasca.estat === 'perFer') botonsEstat = `<button onclick="moureTasca(${tasca.id}, 'enCurs')">➔</button>`;
+        if (tasca.estat === 'enCurs') botonsEstat = `<button onclick="moureTasca(${tasca.id}, 'fet')">➔</button>`;
 
         div.innerHTML = `
             <h3>${tasca.titol}</h3>
             <p>${tasca.descripcio || ''}</p>
-            <div class="meta">
-                <span>Prioritat: <strong>${tasca.prioritat}</strong></span> | 
-                <span>Vence: ${venciment}</span>
+            <div class="meta" style="font-size:0.8rem; color:#888;">
+                Vence: ${dataV} | Prio: ${tasca.prioritat}
             </div>
             <div class="accions">
                 ${botonsEstat}
                 <button onclick="prepararEdicio(${tasca.id})">Editar</button>
-                <button onclick="eliminarTasca(${tasca.id})">Eliminar</button>
+                <button onclick="eliminarTasca(${tasca.id})">Esborrar</button>
             </div>
         `;
-
-        if (columnes[tasca.estat]) {
-            columnes[tasca.estat].appendChild(div);
-        }
+        columnes[tasca.estat].appendChild(div);
     });
 }
 
-// 4. Lògica del Formulari (ACTUALITZADA AMB DATA)
+// Lògica
 taskForm.addEventListener('submit', (e) => {
     e.preventDefault();
-
     const id = editIdInput.value;
     const novaTasca = {
         id: id ? parseInt(id) : Date.now(),
         titol: document.getElementById('task-title').value,
         descripcio: document.getElementById('task-desc').value,
-        dataVenciment: document.getElementById('task-date').value, // LLegim la data
+        dataVenciment: document.getElementById('task-date').value,
         prioritat: document.getElementById('task-priority').value,
         estat: document.getElementById('task-status').value,
         creatEl: id ? llistaTasques.find(t => t.id === parseInt(id)).creatEl : new Date().toISOString()
@@ -83,42 +88,36 @@ taskForm.addEventListener('submit', (e) => {
     }
 
     guardarTasques(llistaTasques);
-    resetFormulari();
+    tancarFormulari();
     renderTauler();
 });
 
-// 5. Funcions d'Acció
-function eliminarTasca(id) {
-    if (confirm('Segur que vols eliminar aquesta tasca?')) {
-        llistaTasques = llistaTasques.filter(t => t.id !== id);
-        guardarTasques(llistaTasques);
-        renderTauler();
-    }
-}
-
-// Funció per moure ràpidament de columna (NOVA)
 function moureTasca(id, nouEstat) {
     llistaTasques = llistaTasques.map(t => t.id === id ? { ...t, estat: nouEstat } : t);
     guardarTasques(llistaTasques);
     renderTauler();
 }
 
+function eliminarTasca(id) {
+    if (confirm('Eliminar tasca?')) {
+        llistaTasques = llistaTasques.filter(t => t.id !== id);
+        guardarTasques(llistaTasques);
+        renderTauler();
+    }
+}
+
 function prepararEdicio(id) {
     const tasca = llistaTasques.find(t => t.id === id);
-    if (!tasca) return;
-
     document.getElementById('task-title').value = tasca.titol;
     document.getElementById('task-desc').value = tasca.descripcio;
-    document.getElementById('task-date').value = tasca.dataVenciment || ''; // Posem la data
+    document.getElementById('task-date').value = tasca.dataVenciment || '';
     document.getElementById('task-priority').value = tasca.prioritat;
     document.getElementById('task-status').value = tasca.estat;
-
     editIdInput.value = tasca.id;
+
+    obrirFormulari();
     formTitle.textContent = "Editant Tasca";
     btnSave.textContent = "Guardar canvis";
-    btnCancel.style.display = "inline";
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function resetFormulari() {
@@ -126,30 +125,26 @@ function resetFormulari() {
     editIdInput.value = '';
     formTitle.textContent = "Nova Tasca";
     btnSave.textContent = "Afegir Tasca";
-    btnCancel.style.display = "none";
 }
 
-// 6. Inicialització
 function inicialitzarApp() {
     llistaTasques = carregarTasques();
-
     if (llistaTasques.length === 0) {
-        llistaTasques = [
-            {
-                id: 1,
-                titol: 'Benvingut al Kanban',
-                descripcio: 'Tasca de prova inicial.',
-                dataVenciment: '',
-                prioritat: 'mitjana',
-                estat: 'perFer',
-                creatEl: new Date().toISOString()
-            }
-        ];
+        llistaTasques = [{
+            id: 1,
+            titol: 'Benvingut',
+            descripcio: 'Proba el sistema',
+            prioritat: 'baixa',
+            estat: 'perFer',
+            dataVenciment: '2026-12-31', // <--- Afegeix aquesta línia
+            creatEl: new Date().toISOString()
+        }];
         guardarTasques(llistaTasques);
     }
-
     renderTauler();
 }
 
+
 document.addEventListener('DOMContentLoaded', inicialitzarApp);
-btnCancel.addEventListener('click', resetFormulari);
+btnCancel.addEventListener('click', tancarFormulari);
+
