@@ -253,8 +253,18 @@ h1 {
         padding: 15px;
     }
 
-    #filtre-text {
+    #filtres {
+        flex-direction: column;
+        gap: 12px; /* Donem espai vertical entre ells */
+    }
+
+    #filtre-text,
+    #filtre-prioritat,
+    #filtre-estat,
+    .camp-filtre {
+        width: 100% !important;
         min-width: 100% !important;
+        box-sizing: border-box;
     }
 
     /* ESTADÍSTIQUES EN MÒBIL (Alineació forçada) */
