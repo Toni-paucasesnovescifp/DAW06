@@ -245,13 +245,50 @@ h1 { color: #1e293b; margin-bottom: 10px; }
     border-color: #cbd5e1;
 }
 
-/* 7. RESPONSIVE */
+/* 7. RESPONSIVE (Issue 5) */
 @media (max-width: 900px) {
     #tauler { flex-direction: column; }
     .columna { width: 100%; min-height: auto; margin-bottom: 20px; }
 }
 
 @media (max-width: 768px) {
-    #barra-lateral { flex-direction: column; align-items: stretch; }
-    .fila-formulari { flex-direction: column; }
+    /* Fem que la barra lateral ocupi tota l'amplada i s'apili */
+    #barra-lateral {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+    }
+
+    #filtres {
+        flex-direction: column;
+    }
+
+    #filtre-text {
+        min-width: 100% !important; /* El cercador ocupa tot l'espai */
+    }
+
+    /* ARRANJAMENT ESTADÍSTIQUES MÒBIL */
+    #estadistiques {
+        min-width: 0 !important; /* Eliminem el mínim que trencava el disseny */
+        overflow-x: auto;       /* Si és molt gran, permet scroll lateral suau */
+    }
+
+    .fila-stats {
+        flex-wrap: wrap;       /* Les magnituds salten de línia si no caben */
+        gap: 8px;
+    }
+
+    .c-total, .c-pend, .c-curs, .c-fet {
+        width: 45%;           /* En mòbil posem les dades de dos en dos */
+    }
+
+    .c-percent {
+        margin-left: 0;
+        border-left: none;
+        border-top: 1px solid #cbd5e1;
+        padding-left: 0;
+        padding-top: 8px;
+        width: 100%;
+        text-align: left;
+    }
 }
