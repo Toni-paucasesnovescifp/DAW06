@@ -12,7 +12,13 @@ header {
     margin-bottom: 25px;
 }
 
-h1 { color: #1e293b; margin-bottom: 10px; }
+/* Títol responsive (Corregit Issue 5) */
+h1 {
+    color: #1e293b;
+    margin-bottom: 10px;
+    font-size: clamp(1.5rem, 7vw, 2.5rem);
+    word-wrap: break-word;
+}
 
 /* 2. ZONA DE FILTRES I ESTADÍSTIQUES (ASIDE) */
 #barra-lateral {
@@ -106,7 +112,25 @@ h1 { color: #1e293b; margin-bottom: 10px; }
     font-size: 1.2rem;
 }
 
-/* 5. FORMULARI MODAL (CORREGIT RESPONSIVE) */
+/* 5. FORMULARI MODAL */
+#btn-obrir-formulari {
+    padding: 12px 24px;
+    background: #2563eb; /* Blau atractiu recuperat */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+#btn-obrir-formulari:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(37, 99, 235, 0.3);
+}
+
 #controls {
     display: none;
     position: fixed;
@@ -118,8 +142,8 @@ h1 { color: #1e293b; margin-bottom: 10px; }
     border-radius: 12px;
     box-shadow: 0 10px 50px rgba(0,0,0,0.4);
     z-index: 1000;
-    width: 95%;      /* Líquid en mòbil */
-    max-width: 600px; /* Màxim en desktop */
+    width: 95%;
+    max-width: 600px;
     box-sizing: border-box;
 }
 
@@ -206,6 +230,16 @@ h1 { color: #1e293b; margin-bottom: 10px; }
     gap: 8px;
 }
 
+.accions button {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
 /* 7. RESPONSIVE FINAL (Issue 5) */
 @media (max-width: 900px) {
     #tauler { flex-direction: column; }
@@ -219,13 +253,20 @@ h1 { color: #1e293b; margin-bottom: 10px; }
         padding: 15px;
     }
 
-    #filtres { flex-direction: column; }
+    #filtre-text {
+        min-width: 100% !important;
+    }
 
-    /* ESTADÍSTIQUES EN MÒBIL (Alineació en graella) */
+    /* ESTADÍSTIQUES EN MÒBIL (Alineació forçada) */
     .fila-stats {
-        display: grid;
+        display: grid !important;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
+    }
+
+    /* Evitar conflicte display:none del JS amb el grid !important */
+    #stats-filtrades[style*="display: none"] {
+        display: none !important;
     }
 
     .c-titol {
@@ -243,7 +284,7 @@ h1 { color: #1e293b; margin-bottom: 10px; }
         grid-column: span 2;
         margin-left: 0;
         border-left: none;
-        border-top: 1px solid #cbd5e1;
+        border-top: 1px dashed #cbd5e1;
         padding-top: 8px;
         text-align: center;
         width: 100%;
